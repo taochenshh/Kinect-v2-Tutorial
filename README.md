@@ -114,8 +114,7 @@ rosrun kinect2_viewer kinect2_viewer sd cloud
 ---
 
 ## Calibration Tutorial
-This tutorial assumes that you have built the <a href="http://bbs.slxrobot.com/kinect-v2-usage-tutorial/"> iai_kinect2</a> in your system.
-After that, you need to calibrate the kinect. The calibration process for each camera is separated into two steps, record and calibrate. That's to say, we first record images on which chess corners are detected into a folder, then we run calibrate program.The main package we are gonna use here is kinect2_calibration.
+The calibration process for each camera is separated into two steps, record and calibrate. That's to say, we first record images on which chess corners are detected into a folder, then we run calibrate program.The main package we are gonna use here is kinect2_calibration.
 
 ### Key bindings
 
