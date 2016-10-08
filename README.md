@@ -205,4 +205,4 @@ You need to remove all `!!opencv-matrix` in these files in order to work with th
 
 * Restart the kinect2_bridge
 
-Next, refer to <a href="http://bbs.slxrobot.com/kinect-calibration/"> kinect v1 calibration tutorial</a>to get the kinect's position in world coordinate system.
+Next, refer to <a href="https://github.com/CTTC/Kinect-ASUS-Xtion-Pro-Live-Calibration-Tutorials"> kinect v1 calibration tutorial</a>to get the kinect's position in world coordinate system.
