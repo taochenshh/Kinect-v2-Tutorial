@@ -111,4 +111,98 @@ roslaunch kinect2_bridge kinect2_bridge.launch
 rosrun kinect2_viewer kinect2_viewer sd cloud
 ```
 
+---
+
 ## Calibration Tutorial
+This tutorial assumes that you have built the <a href="http://bbs.slxrobot.com/kinect-v2-usage-tutorial/"> iai_kinect2</a> in your system.
+After that, you need to calibrate the kinect. The calibration process for each camera is separated into two steps, record and calibrate. That's to say, we first record images on which chess corners are detected into a folder, then we run calibrate program.The main package we are gonna use here is kinect2_calibration.
+
+### Key bindings
+
+Windows:
+
+* ESC, q: Quit
+* SPACE, s: Save the current image for calibration
+* l: decrease min and max value for IR value rage
+* h: increase min and max value for IR value rage
+* 1: decrease min value for IR value rage
+* 2: increase min value for IR value rage
+* 3: decrease max value for IR value rage
+* 4: increase max value for IR value rage
+
+Terminal:
+
+
+* `CRTL`+`c`: Quit
+
+### Calibration
+
+In the record stage, (an) image window(s) will be opened showing the subscribed images. What you need to do is to move the chessboard around in front of the camera, and then press `SPACE` key to save the corner points when chess corners are detected and colored lines show up in the image window. You need to save enough number of groups of points so as to get good calibration results. The images and corner points will be saved in the folder ~/kinect_cal_data. 
+
+In the calibrate stage, just run the program in a `calibrate` mode. Again, the result will be saved in the folder ~/kinect_cal_data. 
+
+**Detailed steps:**
+
+* Start kinect2_bridge
+
+```bash
+roslaunch kinect2_bridge kinect2_bridge.launch
+```
+You can limit the frames per second (to make it easy on your CPU) by adding `_fps_limit:=2` at the end of this command.
+
+* Create a directory for the calibration data files
+
+```bash
+mkdir ~/kinect_cal_data; cd ~/kinect_cal_data
+```
+
+* Calibrate color camera
+Record images for the color camera:
+```bash
+rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 record color
+```
+Note: The first number of the chessboard parameters (8 here) represents the number of columns in the chessboard, while the second number(6 here) is the number of rows in the chessboard, the third number (0.0243) is the width of the square.
+ 
+Calibrate the intrinsics:
+```bash
+rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 calibrate color
+```
+
+* Calibrate ir camera
+Record images for the color camera:
+```bash
+rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 record ir
+```
+
+Calibrate the intrinsics:
+```bash
+rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 calibrate ir
+```
+
+*  Calibrate Extrinsics:
+Record images on both cameras synchronized:
+```bash
+rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 record sync
+```
+
+Calibrate extrinsics:
+```bash
+rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 calibrate sync
+```
+
+* Calibrate the depth measurements
+
+```bash
+rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 calibrate depth
+```
+
+* Store the calibration results into kinect2_bridge directory
+Find out the serial number of your kinect2 by looking at the first lines printed out by the kinect2_bridge when you launched it. The line looks like this:` device serial: 035623243247`
+Create the calibration results directory in kinect2_bridge/data/$serial: `roscd kinect2_bridge/data; mkdir 035623243247`
+Copy the following files from your calibration directory (~/kinect_cal_data) into the directory you just created:
+`calib_color.yaml calib_depth.yaml calib_ir.yaml calib_pose.yaml`
+You need to remove all `!!opencv-matrix` in these files in order to work with these yaml files in python. As for the first line `%YAML:1.0`, you can keep it and skip the first line in your code when you open the file or you can remove it, too.
+
+* Restart the kinect2_bridge
+
+Next, refer to <a href="http://bbs.slxrobot.com/kinect-calibration/"> kinect v1 calibration tutorial</a>to get the kinect's position in world coordinate system.
