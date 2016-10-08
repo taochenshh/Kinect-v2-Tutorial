@@ -157,7 +157,9 @@ mkdir ~/kinect_cal_data; cd ~/kinect_cal_data
 ```
 
 * Calibrate color camera
+
 Record images for the color camera:
+
 ```bash
 rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 record color
 ```
@@ -169,7 +171,9 @@ rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 calibrate color
 ```
 
 * Calibrate ir camera
+
 Record images for the color camera:
+
 ```bash
 rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 record ir
 ```
@@ -180,7 +184,9 @@ rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 calibrate ir
 ```
 
 *  Calibrate Extrinsics:
+
 Record images on both cameras synchronized:
+
 ```bash
 rosrun kinect2_calibration kinect2_calibration chess8x6x0.0243 record sync
 ```
